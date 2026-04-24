@@ -2,13 +2,8 @@ using UnityEngine;
 
 public class ModuleController : MonoBehaviour
 {
-    [Header("Информация")]
     public string moduleName = "Module A";
-    
-    [Header("Настройки поломки")]
-    [Tooltip("Вероятность выхода из строя при каждой проверке (0-1)")]
     public float breakProbability = 0.1f;
-    [Tooltip("Интервал проверки вероятности поломки (сек)")]
     public float checkInterval = 5f;
 
     public bool IsBroken { get; private set; }
@@ -54,7 +49,6 @@ public class ModuleController : MonoBehaviour
     private void UpdateVisual()
     {
         if (modRenderer == null) return;
-        // Мгновенно меняем цвет обшивки в шейдере
         modRenderer.material.SetColor("_HullColor", IsBroken ? Color.red : originalHullColor);
     }
 }

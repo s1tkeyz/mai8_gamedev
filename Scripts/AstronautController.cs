@@ -1,9 +1,7 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class AstronautController : MonoBehaviour
 {
-    [Header("Движение")]
     public float thrustForce = 15f;
     public float rotationSpeed = 120f;
     
@@ -13,7 +11,6 @@ public class AstronautController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Управление тягой (WASD + Space/Ctrl)
         float forward = Input.GetKey(KeyCode.W) ? 1 : Input.GetKey(KeyCode.S) ? -1 : 0;
         float strafe  = Input.GetKey(KeyCode.D) ? 1 : Input.GetKey(KeyCode.A) ? -1 : 0;
         float up      = Input.GetKey(KeyCode.Space) ? 1 : Input.GetKey(KeyCode.LeftControl) ? -1 : 0;
@@ -21,7 +18,6 @@ public class AstronautController : MonoBehaviour
         Vector3 localForce = new Vector3(strafe, up, forward).normalized * thrustForce;
         rb.AddForce(transform.TransformDirection(localForce), ForceMode.Force);
 
-        // Вращение мышью
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
         

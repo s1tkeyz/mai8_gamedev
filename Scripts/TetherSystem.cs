@@ -8,7 +8,6 @@ public class TetherSystem : MonoBehaviour
     public float minTetherLength = 2f;
     public float scrollSpeed = 1.5f;
     
-    [Header("Физика троса")]
     public float stiffness = 20f;
     public float damping = 8f;
 
@@ -19,18 +18,15 @@ public class TetherSystem : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Управление длиной колесиком
         float scroll = Input.mouseScrollDelta.y;
         maxTetherLength = Mathf.Clamp(maxTetherLength + scroll * scrollSpeed, minTetherLength, 40f);
 
-        // Обновление визуала
         if (tetherLine != null)
         {
             tetherLine.SetPosition(0, transform.position);
             tetherLine.SetPosition(1, anchor.position);
         }
 
-        // Физика ограничения
         Vector3 toAnchor = anchor.position - transform.position;
         float currentDist = toAnchor.magnitude;
 
@@ -39,10 +35,8 @@ public class TetherSystem : MonoBehaviour
             Vector3 dir = toAnchor.normalized;
             float stretch = currentDist - maxTetherLength;
             
-            // Пружинная сила
             Vector3 force = dir * stretch * stiffness;
             
-            // Гашение колебаний (демпфирование)
             float velAlongTether = Vector3.Dot(rb.linearVelocity, dir);
             force -= dir * velAlongTether * damping;
             

@@ -61,31 +61,26 @@ Shader "Custom/StationXRay"
 
             half4 frag(v2f i) : SV_Target
             {
-                // 1. Подготовка данных
                 float3 normalWS = normalize(i.normalWS);
                 float3 viewDir  = normalize(_WorldSpaceCameraPos - i.worldPos);
-                float3 lightDir = normalize(float3(0.6, 0.8, 0.3)); // Имитация направленного света
+                float3 lightDir = normalize(float3(0.6, 0.8, 0.3));
                 float NdotL = saturate(dot(normalWS, lightDir));
 
-                // 2. Эффект обшивки (панели + стыки + блик)
-                float diff = NdotL * 0.7 + 0.3; // Мягкое освещение
+                float diff = NdotL * 0.7 + 0.3;
                 float3 reflectDir = reflect(-lightDir, normalWS);
                 float spec = pow(saturate(dot(viewDir, reflectDir)), 48) * 0.35;
 
-                // Панельная сетка (тонкие стыки)
                 float3 p = i.worldPos / _GridSize;
                 float3 dx = fwidth(p);
-                dx = max(dx, 0.001); // Защита от деления на ноль
+                dx = max(dx, 0.001);
                 float3 f = abs(frac(p) - 0.5);
                 float panelLine = 1.0 - smoothstep(0.0, 0.06, min(min(f.x/dx.x, f.y/dx.y), f.z/dx.z));
                 
                 float3 hullBase = _HullColor.rgb * diff + _PanelColor.rgb * panelLine * 0.5 + _PanelColor.rgb * spec;
 
-                // 3. Каркас сканера (яркие линии)
                 float lineDist = min(min(f.x / dx.x, f.y / dx.y), f.z / dx.z);
                 float wireframe = 1.0 - smoothstep(0.0, _WireThickness, lineDist);
 
-                // 4. Мгновенное переключение цвета и прозрачности
                 float isScanning = _ScannerActive;
                 float alpha = lerp(1.0, _ScanOpacity, isScanning);
                 float3 finalColor = lerp(hullBase, _WireColor.rgb, wireframe * isScanning);
