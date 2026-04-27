@@ -20,4 +20,4 @@
 
 ## Демо
 
-Скрины и демо-видео здесь: https://drive.google.com/drive/u/0/folders/1Jkgqq7lC3Yz7h7xhiBDuwThzAzbzLGsP
+Скрины и демо-видео здесь: https://drive.google.com/drive/folders/1Jkgqq7lC3Yz7h7xhiBDuwThzAzbzLGsP
